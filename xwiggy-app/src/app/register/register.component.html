@@ -1,201 +1,202 @@
-<div class="container body">
-  <br><br><br><br>
-  <H1 align="center">SpringFood | Registration</H1>
-  <br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpringFood | Registration</title>
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background */
+            font-family: Arial, sans-serif;
+        }
 
-  <div class="container" align="center">
-    <div class="row">
-      <div class="offset-3"></div>
-      <div class="col-md-6">
-        <form name="form" #f="ngForm" (ngSubmit)="emailValidation&&phoneValidation&&passwordValidation&&f.form.valid && registerUser()" novalidate class="feedback-form">
-          <div class="container" style="height: 35px;">
-          <div *ngIf="present" class="alert alert-danger alert-box" align="center" style="width: 75%; margin: auto;">
-            <strong>UserName Already Taken!</strong>
-          </div>
-          <div *ngIf="present==false" class="alert alert-success alert-box" align="center" style="width: 75%; margin: auto;">
-            <strong>UserName Available!</strong>
-          </div>
-          </div>
-          <!-- UserName -->
-          <table align="center">
-          <div class="form-group">
-              <tr>
-                <td style="text-align: center"> <label for="username">Username</label></td>
-                <td><input type="text"
-                           id="username"
-                           class="form-control"
-                           name="username"
-                           placeholder="Your Username"
-                           [(ngModel)]="model.username"
-                           #username="ngModel"
-                           [ngClass]="{ 'is-invalid': f.submitted && username.invalid }"
-                           required="required"/></td>
-                <td>
-                  <div class="container" align="center">
-                    <a (click)="usernamePresent()" data-toggle="tooltip" data-placement="right" title="Click to check availability"><img src="../../assets/images/checkAvailability.png" style="height: 25px;width: 25px"></a>
-                  </div>
-                </td>
+        .container.body {
+            padding: 50px 0;
+        }
 
-              </tr>
-          </div>
-          <!-- Password -->
-          <div class="form-group">
-              <tr>
-                <td><label for="password">Password</label></td>
-                <td><input (keyup)="passwordStrength()" type="password"
-                           id="password"
-                           class="form-control"
-                           name="password"
-                           placeholder="Your Password"
-                           [(ngModel)]="model.password"
-                           #password="ngModel"
-                           minlength="8"
-                           maxlength="16"
-                           [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
-                           required="required"/></td>
-                <td style="width: 58px; height: 35px; vertical-align: bottom" align="center"><a *ngIf="!passwordValidation" class="password" data-toggle="tooltip" data-placement="right" title="Your Password should contain : &#013; 1 special character &#013; 1 Upper Case character &#013; 1 Numeric character &#013; Minumum Length = 8 &#013; Maximum length = 16"><img src="../../assets/images/key.png" style="width: 30px; height: 30px"></a> </td>
-              </tr>
-          </div>
+        h1 {
+            margin-bottom: 40px;
+            color: #333; /* Darker text for the heading */
+        }
 
-          <!-- First Name -->
-          <div class="form-group">
+        .registration-container {
+            background: white; /* White background for the form */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            padding: 30px; /* Padding inside the form */
+            max-width: 600px; /* Maximum width of the form */
+            margin: auto; /* Center the form */
+        }
 
-              <tr>
-                <td><label for="firstname">First name</label></td>
-                <td><input type="text"
-                           id="firstname"
-                           class="form-control"
-                           name="firstname"
-                           placeholder="Your Firstname"
-                           [(ngModel)]="model.firstname"
-                           #firstname="ngModel"
-                           [ngClass]="{ 'is-invalid': f.submitted && firstname.invalid }"
-                           required="required"/></td>
-                <td></td>
-              </tr>
-          </div>
+        .form-group {
+            margin-bottom: 20px; /* Space between form fields */
+        }
 
-          <!-- Last Name -->
-          <div class="form-group">
-              <tr>
-                <td><label for="lastname">Last Name</label></td>
-                <td><input type="text"
-                           id="lastname"
-                           class="form-control"
-                           name="lastname"
-                           placeholder="Your Lastname"
-                           [(ngModel)]="model.lastname"
-                           #lastname="ngModel"
-                           [ngClass]="{ 'is-invalid': f.submitted && lastname.invalid }"
-                           required="required"/></td>
-                <td></td>
-              </tr>
-          </div>
+        label {
+            font-weight: bold; /* Bold labels */
+            margin-bottom: 5px; /* Space below labels */
+            display: block; /* Make labels block-level for better spacing */
+        }
 
-          <!-- Email -->
-          <div class="form-group">
-              <tr>
-                <td><label for="email">Email</label></td>
-                <td><input (keyup)="checkEmail()"
-                           type="text"
-                           id="email"
-                           class="form-control"
-                           name="email"
-                           placeholder="email"
-                           [(ngModel)]="model.email"
-                           #email="ngModel"
-                           [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
-                           required="required"/></td>
-                <td><a *ngIf="!emailValidation" data-toggle="tooltip" data-placement="right" title="Enter a valid Email Address">Not a valid email</a></td>
-              </tr>
-          </div>
+        .input-group {
+            display: flex; /* Flexbox for input and button */
+            align-items: center; /* Center items vertically */
+        }
 
-          <!-- Address -->
-          <div class="form-group">
-              <tr>
-                <td><label for="address">Address</label></td>
-                <td><input type="text"
-                           id="address"
-                           class="form-control"
-                           name="address"
-                           placeholder="address"
-                           [(ngModel)]="model.address"
-                           #address="ngModel"
-                           [ngClass]="{ 'is-invalid': f.submitted && address.invalid }"
-                           required="required"/></td>
-                <td></td>
-              </tr>
-          </div>
+        .input-group-append {
+            margin-left: 10px; /* Space between input and button */
+        }
 
-          <!-- Phone -->
-          <div class="form-group">
-              <tr>
-                <td><label for="phone">Phone</label></td>
-                <td><input (keyup)="checkPhone()"
-                           type="text"
-                           id="phone"
-                           class="form-control"
-                           name="phone"
-                           placeholder="phone"
-                           [(ngModel)]="model.phone"
-                           #phone="ngModel"
-                           [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }"
-                           maxlength="10"
-                           minlength="10"
-                           required="required"/></td>
-                <td>
-                  <a *ngIf="!phoneValidation" data-toggle="tooltip" data-placement="right" title="Enter a valid Phone Number">Invalid Phone Number</a>
-                </td>
-              </tr>
-          </div>
-            <div class="form-group">
-              <tr>
-                <td>
-                  <label >Account</label>
-                </td>
-                <td><select class="form-control" [(ngModel)]="options"
-                name="options" id="options">
-                  <option>User</option>
-                  <option>Merchant</option>
-                </select></td>
-              </tr>
-            </div>
-          </table>
+        input[type="text"], input[type="email"], input[type="password"], select {
+            height: 45px; /* Uniform input height */
+            font-size: 16px; /* Larger font size */
+            width: 100%; /* Make inputs full-width */
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
 
-          <table align="center" style="padding-right:10%">
-            <tr>
-              <td><button type="submit" class="bigbutton">
-                <span> Register</span></button>
-              </td>
-              <td><button routerLink="/home" class="bigbutton"><span>Home</span></button> </td>
-            </tr>
-          </table>
+        .btn {
+            width: 100%; /* Full width buttons */
+            padding: 10px; /* Padding in buttons */
+            font-size: 16px; /* Larger font size */
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-        </form>
-      </div>
-      <div class="offset-3"></div>
+        .btn-primary {
+            background-color: #007bff; /* Primary button color */
+            border: none; /* No border */
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Darker on hover */
+        }
+
+        .btn-secondary {
+            background-color: #6c757d; /* Secondary button color */
+            border: none; /* No border */
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Darker on hover */
+        }
+
+        .alert {
+            margin-bottom: 20px; /* Space below alerts */
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .alert-box {
+            width: 75%;
+            margin: auto;
+        }
+
+        .password-tooltip {
+            color: red; /* Tooltip text color */
+            font-size: 14px; /* Font size for tooltip */
+            margin-top: 5px;
+        }
+
+        .invalid-feedback {
+            color: red; /* Invalid feedback text color */
+            font-size: 14px; /* Font size for feedback */
+            margin-top: 5px;
+        }
+
+        /* Style for buttons in the form */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container body">
+        <h1 align="center">SpringFood | Registration</h1>
+
+        <div class="registration-container">
+            <form name="form" #f="ngForm" (ngSubmit)="emailValidation && phoneValidation && passwordValidation && f.form.valid && registerUser()" novalidate>
+                <div *ngIf="present" class="alert alert-danger alert-box">
+                    <strong>Username Already Taken!</strong>
+                </div>
+                <div *ngIf="!present" class="alert alert-success alert-box">
+                    <strong>Username Available!</strong>
+                </div>
+
+                <!-- UserName -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-group">
+                        <input type="text" id="username" class="form-control" name="username" placeholder="Your Username" [(ngModel)]="model.username" #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.invalid }" required />
+                        <div class="input-group-append">
+                            <a (click)="usernamePresent()" data-toggle="tooltip" data-placement="right" title="Click to check availability"><img src="../../assets/images/checkAvailability.png" alt="Check Availability" style="height: 25px;width: 25px;"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input (keyup)="passwordStrength()" type="password" id="password" class="form-control" name="password" placeholder="Your Password" [(ngModel)]="model.password" #password="ngModel" minlength="8" maxlength="16" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" required />
+                    <div class="password-tooltip" *ngIf="!passwordValidation">
+                    </div>
+                </div>
+
+                <!-- First Name -->
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" id="firstname" class="form-control" name="firstname" placeholder="Your Firstname" [(ngModel)]="model.firstname" #firstname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstname.invalid }" required />
+                </div>
+
+                <!-- Last Name -->
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" id="lastname" class="form-control" name="lastname" placeholder="Your Lastname" [(ngModel)]="model.lastname" #lastname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastname.invalid }" required />
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input (keyup)="checkEmail()" type="email" id="email" class="form-control" name="email" placeholder="Email" [(ngModel)]="model.email" #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required />
+                    <div *ngIf="!emailValidation" class="invalid-feedback">Not a valid email</div>
+                </div>
+
+                <!-- Address -->
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" class="form-control" name="address" placeholder="Address" [(ngModel)]="model.address" #address="ngModel" [ngClass]="{ 'is-invalid': f.submitted && address.invalid }" required />
+                </div>
+
+                <!-- Phone -->
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input (keyup)="checkPhone()" type="text" id="phone" class="form-control" name="phone" placeholder="Phone" [(ngModel)]="model.phone" #phone="ngModel" [ngClass]="{ 'is-invalid': f.submitted && phone.invalid }" maxlength="10" minlength="10" required />
+                    <div *ngIf="!phoneValidation" class="invalid-feedback">Invalid Phone Number</div>
+                </div>
+
+                <!-- Account Type -->
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <select class="form-control" [(ngModel)]="options" name="options" id="options">
+                        <option>User</option>
+                        <option>Merchant</option>
+                    </select>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button routerLink="/home" class="btn btn-secondary">Home</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-</div>
-
-
-<!-- START CAPTCHA -->
-<!--<form onsubmit="return checkform(this);" class="formmargin">
-  <div class="capbox">
-    &lt;!&ndash;<div id="CaptchaDiv">73493</div>&ndash;&gt;
-    <div id="CaptchaDiv" class="disable-text-selection"><span (copy)="$event.preventDefault()" (cut)="$event.preventDefault()" (paste)="$event.preventDefault()">12345</span></div>
-    <div class="capbox-inner">
-      Type the above number:<br>
-      <input type="hidden" id="txtCaptcha"  placeholder="12345">
-      <input type="text" name="CaptchaInput" id="CaptchaInput" ondrop="return false;" onpaste="return false;"size="15"><br>
-    </div>
-  </div>
-  <br>
-  <br>
-  <input type="submit" value="Test Captcha"><br>
-</form>-->
-<!-- END CAPTCHA -->
-<!--(beforecopy)="$event.preventDefault()" (cut)="$event.preventDefault()" (paste)="$event.preventDefault()" ng-paste="$event.preventDefault()"-->
-
-
-
+</body>
+</html>

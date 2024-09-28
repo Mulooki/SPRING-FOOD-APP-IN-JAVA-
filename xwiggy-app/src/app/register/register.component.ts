@@ -10,6 +10,7 @@ import { AppComponent, User } from "../app.component";
 })
 export class RegisterComponent implements OnInit {
 
+  // Model to store user data
   model: User = {
     username: '',
     password: '',
@@ -17,18 +18,18 @@ export class RegisterComponent implements OnInit {
     lastname: '',
     email: '',
     address: '',
-    phone: 0,               // Set default value for phone to 0
-    merchant: false          // Set default value for merchant to false
+    phone: null,
+    merchant: null
   };
 
-  options: string = '';            // Dropdown for merchant selection (initialize to empty string)
-  present: boolean = false;        // Username availability flag (default to false)
-  usernameAvailability: string = ''; // Message for username availability
-  fontColor: string = '';           // Color for availability message
+  options: string = null;            // Dropdown for merchant selection
+  present: boolean = null;           // Username availability flag
+  usernameAvailability: string;      // Message for username availability
+  fontColor: string;                
 
   phoneValidation: boolean = true;   // Validation flag for phone number
-  emailValidation: boolean = true;    // Validation flag for email
-  passwordValidation: boolean = true; // Validation flag for password
+  emailValidation: boolean = true;   // Validation flag for email
+  passwordValidation: boolean = true;// Validation flag for password
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -41,7 +42,7 @@ export class RegisterComponent implements OnInit {
 
     this.http.post<boolean>(url, this.model.username).subscribe(
       res => {
-        this.present = res; // Assigning boolean value
+        this.present = res;
         if (this.present) {
           this.fontColor = "red";
           this.usernameAvailability = "Username Already Taken";
@@ -61,10 +62,10 @@ export class RegisterComponent implements OnInit {
     this.model.merchant = this.options && this.options.length !== 4;
   }
 
-  // Validate phone number format
+  // Validate phone number format (should be exactly 10 digits)
   checkPhone() {
     const phonePattern = /^[+ 0-9]{10}$/;
-    this.phoneValidation = this.model.phone !== 0 && phonePattern.test(String(this.model.phone));
+    this.phoneValidation = phonePattern.test(String(this.model.phone));
   }
 
   // Validate email format
@@ -72,7 +73,7 @@ export class RegisterComponent implements OnInit {
     this.emailValidation = this.model.email.length === 0 || this.model.email.includes("@");
   }
 
-  // Check password strength
+  // Validate password strength
   passwordStrength() {
     if (this.model.password.length < 8) {
       this.passwordValidation = false;
