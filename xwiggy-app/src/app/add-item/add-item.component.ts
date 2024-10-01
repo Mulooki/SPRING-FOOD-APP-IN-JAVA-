@@ -24,8 +24,8 @@ export class AddItemComponent implements OnInit {
       this.router.navigate(['welcome']);
   }
 
-  url: string = null;
-  selectedFile: File | null = null; // Declare selectedFile with File type
+  url: string | null = null;  // Allow url to be null initially
+  selectedFile: File | null = null; // Declare selectedFile with File | null type
 
   onSubmit(): void {
     const formData = new FormData();
@@ -37,6 +37,7 @@ export class AddItemComponent implements OnInit {
     console.log(formData.get('file'));
     console.log(formData.get('newFoodItem'));
 
+    // Set URL based on whether a file is selected or not
     this.url = this.selectedFile ? "http://localhost:8080/addNewItemUrl" : "http://localhost:8080/addNewItem";
 
     this.http.post(this.url, formData)
@@ -76,7 +77,8 @@ export class AddItemComponent implements OnInit {
     sessionStorage.clear();
   }
 }
-//modfying 
+
+//modifying 
 export interface foodItems {
   id: string;
   name: string;

@@ -35,13 +35,21 @@ export class ContactUsComponent implements OnInit {
 
   ngOnInit() {
     // Check if user data exists in sessionStorage, otherwise redirect to login
-    if (sessionStorage.getItem('userData') === null) {
+    const userDataStr = sessionStorage.getItem('userData');
+    if (userDataStr === null) {
       this.router.navigate(["login"]);
     } else {
-      // Retrieve user data from sessionStorage
-      const userData = JSON.parse(sessionStorage.getItem('userData'));
-      console.log(userData);
-      Object.assign(this.modelUser, userData);
+      try {
+        // Retrieve user data from sessionStorage if it exists
+        const userData = JSON.parse(userDataStr);
+        if (userData) {
+          Object.assign(this.modelUser, userData);
+        }
+      } catch (error) {
+        console.error('Error parsing userData from sessionStorage', error);
+        sessionStorage.clear();  // Clear sessionStorage in case of corrupted data
+        this.router.navigate(["login"]);
+      }
     }
   }
 
